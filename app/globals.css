@@ -1,26 +1,291 @@
 @import "tailwindcss";
 
+@utility text-ms {
+  font-size: 0.8125rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Palette inspired by the brutal reference */
+  --background: #fde0ad;
+  --background-card: #ffe6bb;
+  --background-hero: #4ACBC0;
+  --foreground: #111111;
+  --surface: #ffffff;
+  --accent: #FFE86C;
+  --purple: #A38BEC;
+  --orange: #FF6A65;
+  --accent-strong: #FF6A65;
+  --accent-soft: #4ACBC0;
+  --muted: #6b6a67;
+  --border: #111111;
+  --shadow: #111111;
+  --white: #ffffff;
+  /* Customize each section's background here. */
+  --section-home-background: var(--background-hero);
+  --section-marquee-background: var(--accent);
+  --section-about-background: transparent;
+  --section-projects-background: transparent;
+  --section-experience-background: transparent;
+  --section-contact-background: transparent;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  --background: #1e1e1e;
+  --foreground: #f5f5f0;
+  --background-card: #1e1e1e;
+  --background-hero: #1e1e1e;
+  --surface: #222222;
+  --orange: #FF9A6B;
+  --accent: #FFE86C;
+  --purple: #A38BEC;
+  --muted: #b0b0aa;
+  --border: #f5f5f0;
+  --shadow: #f5f5f0;
+  --white: #222222;
+  --section-home-background: var(--background-hero);
+  --section-marquee-background: var(--accent);
+  --section-about-background: transparent;
+  --section-projects-background: transparent;
+  --section-experience-background: transparent;
+  --section-contact-background: transparent;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Typography */
+:root {
+  /* Typography */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Layout */
+  --container: 1440px;
+  --page-padding: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.brutal-shadow {
+  box-shadow: 5px 5px 0 var(--shadow);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.brutal-shadow:hover,
+.brutal-shadow:focus-visible,
+.brutal-shadow:focus-within {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+
+.brutal-shadow:active {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+.hero-title-shadow {
+  text-shadow: 3px 3px 0 var(--shadow);
+}
+
+@media (min-width: 768px) {
+  .hero-title-shadow {
+    text-shadow: 6px 7px 0 var(--shadow);
+  }
+}
+
+:root[data-theme="dark"] .border-black {
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] .bg-black {
+  background-color: var(--foreground);
+}
+
+:root[data-theme="dark"] .bg-white {
+  background-color: var(--surface);
+}
+
+:root[data-theme="dark"] .text-white {
+  color: var(--background);
+}
+
+:root[data-theme="dark"] .text-neutral-600 {
+  color: #c2c2bc;
+}
+
+:root[data-theme="dark"] .text-neutral-500 {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .text-neutral-400 {
+  color: #92928c;
+}
+
+/* --------------------------------
+   Typography
+-------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+code,
+.mono {
+  font-family: var(--font-mono);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* --------------------------------
+   Selection
+-------------------------------- */
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* --------------------------------
+   Links
+-------------------------------- */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --------------------------------
+   Buttons
+-------------------------------- */
+
+button {
+  font: inherit;
+}
+
+/* --------------------------------
+   Focus
+-------------------------------- */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* --------------------------------
+   Images
+-------------------------------- */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --------------------------------
+   Mobile
+-------------------------------- */
+
+@media (min-width: 768px) {
+  :root {
+    --page-padding: 40px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --page-padding: 64px;
+  }
+}
+
+/* --------------------------------
+   Reduced Motion
+-------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------
+   Marquee
+-------------------------------- */
+
+.marquee-track {
+  animation: marquee 24s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-padding: 16px;
+  }
 }
