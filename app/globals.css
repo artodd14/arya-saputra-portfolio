@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-@utility text-ms {
+/* @utility text-ms {
   font-size: 0.8125rem;
-}
+} */
 
 :root {
   /* Palette inspired by the brutal reference */
@@ -104,6 +104,51 @@ body {
 
 .hero-title-shadow {
   text-shadow: 3px 3px 0 var(--shadow);
+}
+
+.hero-greeting-rotate {
+  display: inline-block;
+}
+
+.hero-greeting-rotate.is-animating {
+  -webkit-animation: rotate-90-left-ccw 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2 alternate;
+  animation: rotate-90-left-ccw 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2 alternate;
+}
+
+@-webkit-keyframes rotate-90-left-ccw {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    -webkit-transform-origin: left;
+    transform-origin: left;
+  }
+
+  100% {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    -webkit-transform-origin: left;
+    transform-origin: left;
+  }
+}
+
+@keyframes rotate-90-left-ccw {
+  0% {
+    transform: rotate(0);
+    transform-origin: left;
+  }
+
+  100% {
+    transform: rotate(-90deg);
+    transform-origin: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-greeting-rotate.is-animating {
+    -webkit-animation: none;
+    animation: none;
+    transform: none;
+  }
 }
 
 @media (min-width: 768px) {

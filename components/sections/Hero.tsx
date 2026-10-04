@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,6 +9,8 @@ import { Container } from "@/components/ui/Container";
 
 export function Hero() {
   const [currentDate, setCurrentDate] = useState(() => new Date());
+  const [isGreetingAnimating, setIsGreetingAnimating] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -17,6 +19,10 @@ export function Hero() {
 
     return () => window.clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    setIsGreetingAnimating(prefersReducedMotion === false);
+  }, [prefersReducedMotion]);
 
   const formattedDate = new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
@@ -44,14 +50,27 @@ export function Hero() {
 
         <div className="py-16 md:py-20">
           <div className="relative mt-6">
-            <motion.p
+            <motion.button
+              type="button"
+              onClick={() => {
+                if (prefersReducedMotion === false) {
+                  setIsGreetingAnimating(true);
+                }
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="absolute -left-1 -top-10 z-10 -rotate-12 whitespace-nowrap border-2 border-black bg-[var(--accent)] px-2 py-1 font-mono text-ms uppercase leading-none tracking-[0.12em] text-black shadow-[3px_3px_0_var(--shadow)] sm:-left-3 sm:px-3 sm:py-2 sm:text-base md:-left-20 md:-rotate-15 md:text-xl md:shadow-[5px_8px_0_var(--shadow)]"
+              className="absolute -left-1 -top-10 z-10 -rotate-12 cursor-pointer appearance-none whitespace-nowrap border-0 bg-transparent p-0 text-left font-mono text-ms uppercase leading-none tracking-[0.12em] text-black sm:-left-3 sm:text-base md:-left-20 md:-rotate-15 md:text-xl"
             >
-              Hello, I&apos;m Arya Saputra
-            </motion.p>
+              <span
+                className={`hero-greeting-rotate border-2 border-black bg-[var(--accent)] px-2 py-1 shadow-[3px_3px_0_var(--shadow)] sm:px-3 sm:py-2 md:shadow-[5px_8px_0_var(--shadow)]${
+                  isGreetingAnimating ? " is-animating" : ""
+                }`}
+                onAnimationEnd={() => setIsGreetingAnimating(false)}
+              >
+                Hello, I&apos;m Arya Saputra
+              </span>
+            </motion.button>
 
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
